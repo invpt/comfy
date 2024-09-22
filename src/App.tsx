@@ -68,12 +68,19 @@ const atan2 = (p1: { x: number; y: number }) => {
 };
 
 const App: Component = () => {
-  const dim = usePhysicalDimensions();
+  const [dotPitch, setDotPitch] = createSignal(
+    +(localStorage.getItem("dotPitch") ?? 0.1571),
+  );
+  const dim = usePhysicalDimensions(dotPitch);
   const [state, setState] = createStore<AppState>({
     phase: "setup",
     touches: [],
   });
   const [prevId, setPrevId] = createSignal<number>();
+
+  createEffect(() => {
+    localStorage.setItem("dotPitch", `${dotPitch()}`);
+  });
 
   const handleTouch: (
     eventKind: "start" | "move" | "end",
@@ -202,6 +209,14 @@ const App: Component = () => {
         onTouchCancel={handleTouch("end")}
         viewBox={`0 0 ${dim.pxToMm(window.innerWidth)} ${dim.pxToMm(window.innerHeight)}`}
       >
+        <rect
+          width={85.6}
+          height={53.98}
+          x={10}
+          y={10}
+          fill="#00000022"
+          stroke="red"
+        />
         <For each={state.phase === "homed" ? state.homes : []}>
           {(touch) => (
             <>
@@ -246,6 +261,14 @@ const App: Component = () => {
         </For>
       </svg>
       <div class={styles.Overlay}>
+        <label for="dot pitch">dot pitch</label>
+        <input
+          type="number"
+          id="dot pitch"
+          value={dotPitch()}
+          step={0.00025}
+          onChange={(ev) => setDotPitch(+ev.currentTarget.value)}
+        />
         <button
           onClick={() =>
             confirm("Are you sure you want to reset?")

@@ -14,9 +14,5 @@ svg {
 }
 
 .Overlay {
-    margin-top: auto;
-    display: flex;
-    flex-direction: row;
-    align-items: bottom;
-    justify-content: end;
+    margin-bottom: auto;
 }
