@@ -1,0 +1,22 @@
+.Root {
+    display: grid;
+}
+
+.Root > * {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+}
+
+svg {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.Overlay {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: bottom;
+    justify-content: end;
+}
